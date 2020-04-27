@@ -49,12 +49,9 @@ public class Calculator extends Application{
 	@Override
 	public void start(Stage stage) throws Exception{
 		stage.setTitle("MyCalculator");
-		//VBox root = new VBox();
 		TilePane tilePane = new TilePane();
 		tilePane.setHgap(40);
 		tilePane.setVgap(10);
-		//root.setSpacing(10);
-		//root.setPadding(10);
 		screen = new Label("");
 		curr ="";
 		pos = true;
@@ -98,7 +95,6 @@ public class Calculator extends Application{
 				}
 				logOp=true;
 				screen.setText("log(");
-				//curr=curr+"1";
 			}
 		});
 		
@@ -326,7 +322,6 @@ public class Calculator extends Application{
 			}
 		});
 		
-		//root.getChildren().addAll(label1, button1, button2, button3, button4, button5, button6, button7, button8, button9, button0);
 		tilePane.getChildren().add(clear);
 		tilePane.getChildren().add(sign);
 		tilePane.getChildren().add(point);
