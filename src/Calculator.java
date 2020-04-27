@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import java.lang.Math;
 
 public class Calculator extends Application{
 
@@ -29,6 +30,7 @@ public class Calculator extends Application{
 	Button sign;
 	Button enter;
 	Button point;
+	Button log;
 	
 	String curr;
 	double first;
@@ -37,6 +39,7 @@ public class Calculator extends Application{
 	boolean pos;
 	int operation; //1=+ 2=- 3=* 4=/
 	boolean newOp;
+	boolean logOp;
 	
 	int i=1;
 	public static void main(String[] args) {
@@ -48,7 +51,7 @@ public class Calculator extends Application{
 		stage.setTitle("MyCalculator");
 		//VBox root = new VBox();
 		TilePane tilePane = new TilePane();
-		tilePane.setHgap(20);
+		tilePane.setHgap(40);
 		tilePane.setVgap(10);
 		//root.setSpacing(10);
 		//root.setPadding(10);
@@ -60,8 +63,9 @@ public class Calculator extends Application{
 		answer=0;
 		operation=0;
 		newOp=false;
+		logOp=false;
 		
-		Scene scene = new Scene(tilePane, 200, 300);
+		Scene scene = new Scene(tilePane, 250, 450);
 		stage.setScene(scene);
 		
 		button1 = new Button("1");
@@ -82,7 +86,21 @@ public class Calculator extends Application{
 		sign = new Button("+/-");
 		enter = new Button("=");
 		point = new Button(".");
+		log = new Button("log");
 		
+		
+		log.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				System.out.print("log");
+				if(newOp) {
+					screen.setText("");
+					newOp=false;
+				}
+				logOp=true;
+				screen.setText("log(");
+				//curr=curr+"1";
+			}
+		});
 		
 		button1.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
@@ -269,26 +287,32 @@ public class Calculator extends Application{
 		
 		enter.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent event) {
-				
-				second = Double.parseDouble(curr);
-				if(!pos) {
-					first=first*-1;
+				if(logOp) {
+					first = Double.parseDouble(curr);
+					answer = Math.log10(first);
 				}
-				if(operation==1) {
-					answer=first+second;
-				}
-				else if(operation==2) {
-					answer=first-second;
-				}
-				else if(operation==3) {
-					answer=first*second;
-				}
-				else if(operation==4) {
-					answer=first/second;
+				else {
+					second = Double.parseDouble(curr);
+					if(!pos) {
+						first=first*-1;
+					}
+					if(operation==1) {
+						answer=first+second;
+					}
+					else if(operation==2) {
+						answer=first-second;
+					}
+					else if(operation==3) {
+						answer=first*second;
+					}
+					else if(operation==4) {
+						answer=first/second;
+					}
 				}
 				System.out.print("="+answer+"\n");
 				screen.setText(String.format("%.3f", answer));
 				newOp=true;
+				logOp=false;
 				curr="";
 				pos=true;
 			}
@@ -321,6 +345,7 @@ public class Calculator extends Application{
         tilePane.getChildren().add(times);
         tilePane.getChildren().add(divide);
         tilePane.getChildren().add(enter);
+        tilePane.getChildren().add(log);
         tilePane.getChildren().add(screen);
 		stage.show();
 	}
