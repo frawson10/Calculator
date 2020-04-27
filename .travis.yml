@@ -1,4 +1,10 @@
 language: java
 jdk: -openjdk8
+
+addons:
+  sonarcloud:
+    organization: "frawson10"
+    token: "ddb0cafdc938258e0e46e5d899bc75123f13f9d8"
 script: 
 - ant build
+- sonar-scanner
